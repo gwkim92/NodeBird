@@ -54,10 +54,10 @@ const AppLayout = ({ children }) => {
       </Row>
     </div>
   );
-
+};
   AppLayout.propTypes = {
     children: PropTypes.node.isRequired,
   };
-};
+
 
 export default AppLayout;
