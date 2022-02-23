@@ -2,33 +2,31 @@ import React, { useState, useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+import useInput from "../hooks/useInput";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../reducers/user";
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
+const FormWrapper = styled(Form)`
+  padding: 10px;
+`;
 
-const LoginForm = (setisLoggedIn) => {
-  const [Id, setId] = useState("");
-  const [password, setpassword] = useState("");
+const LoginForm = () => {
 
-  const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-  }, []);
+  const dispatch = useDispatch(); 
+  const [Id, onChangeId] = useInput("");
+  const [password, onChangePassword] = useInput("");
 
-  const onChangePassword = useCallback((e) => {
-    setpassword(e.target.value);
-  }, []);
-
-  const onSubmitForm = useCallback(
-    (e) => {
-      console.log(Id, password);
-      setisLoggedIn(true);
-    },
-    [Id, password]
-  );
+  const onSubmitForm = useCallback(() => {
+    console.log("onsubmit", Id, password);
+    dispatch(loginAction({Id, password}))
+  }, [Id, password]);
 
   return (
-    <Form onFinish={onSubmitForm}>
+    <FormWrapper onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user-id">아이디</label>
         <br />
@@ -49,15 +47,17 @@ const LoginForm = (setisLoggedIn) => {
         <Button type="primary" htmlType="submit" loading={false}>
           로그인
         </Button>
-        <Link href="/sign">
+        <Link href="/signup">
           <a>
             <Button>회원가입</Button>
           </a>
         </Link>
       </ButtonWrapper>
       <div></div>
-    </Form>
+    </FormWrapper>
   );
 };
+
+
 
 export default LoginForm;
